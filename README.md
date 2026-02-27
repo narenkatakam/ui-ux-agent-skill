@@ -316,7 +316,7 @@ flowchart TB
 
 This is a fork of [oil-oil/oiloil-ui-ux-guide](https://github.com/oil-oil/oiloil-ui-ux-guide) — a well-structured Chinese-language UI/UX skill by [oil-oil](https://github.com/oil-oil). The original had strong bones: solid core UX principles, a smart help-text layering system (L0-L3), Norman-inspired design psychology, and a clean multi-tool architecture.
 
-What it was missing: accessibility, responsive design, typography, color systems, navigation patterns, data visualization — and English. This fork fills those gaps and adds a product-thinking perspective: every rule traces back to a user outcome, not a style preference.
+What it was missing: accessibility, responsive design, typography, color systems, navigation patterns, data visualization — and English (for wider reach). This fork fills those gaps and adds a product-thinking perspective: every rule traces back to a user outcome, not a style preference.
 
 **What changed:**
 
