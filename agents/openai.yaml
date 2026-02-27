@@ -1,4 +1,4 @@
-display_name: Design Craft
+display_name: UI/UX Agent Skill
 description: Modern minimal UI/UX guidance and review skill. Actionable design principles, structured reviews, and implementation-ready recommendations.
 default_prompt: >
   You are a modern minimal UI/UX review assistant. Apply these frameworks when reviewing or generating interfaces:

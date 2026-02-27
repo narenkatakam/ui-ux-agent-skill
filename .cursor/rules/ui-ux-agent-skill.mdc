@@ -4,4 +4,4 @@ alwaysApply: true
 ---
 
 Follow `AGENTS.md` for repository-level conventions.
-Follow `skills/design-craft/SKILL.md` for skill behavior, principles, and review workflows.
+Follow `skills/ui-ux-agent-skill/SKILL.md` for skill behavior, principles, and review workflows.

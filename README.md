@@ -1,4 +1,4 @@
-# Design Craft
+# UI/UX Agent Skill
 
 A UI/UX guidance and review skill for AI coding assistants. Turns vague design feedback into actionable, implementable recommendations.
 
@@ -33,38 +33,38 @@ Two modes:
 ### Multi-agent install (recommended)
 
 ```bash
-npx skills add narenkatakam/design-craft-guide -a codex -a claude-code -a cursor -a windsurf
+npx skills add narenkatakam/ui-ux-agent-skill -a codex -a claude-code -a cursor -a windsurf
 ```
 
 Add `-g` for global (user-level) install:
 
 ```bash
-npx skills add narenkatakam/design-craft-guide -g -a codex -a claude-code -a cursor -a windsurf
+npx skills add narenkatakam/ui-ux-agent-skill -g -a codex -a claude-code -a cursor -a windsurf
 ```
 
 ### Single-agent install
 
 ```bash
 # Codex
-npx skills add narenkatakam/design-craft-guide -a codex
+npx skills add narenkatakam/ui-ux-agent-skill -a codex
 
 # Claude Code
-npx skills add narenkatakam/design-craft-guide -a claude-code
+npx skills add narenkatakam/ui-ux-agent-skill -a claude-code
 
 # Cursor
-npx skills add narenkatakam/design-craft-guide -a cursor
+npx skills add narenkatakam/ui-ux-agent-skill -a cursor
 
 # Windsurf
-npx skills add narenkatakam/design-craft-guide -a windsurf
+npx skills add narenkatakam/ui-ux-agent-skill -a windsurf
 ```
 
 ### Manual install
 
 Copy the relevant files into your project or user-level config:
 
-- **Codex**: place `skills/design-craft/` in `~/.codex/skills/` and `agents/openai.yaml` in project root
+- **Codex**: place `skills/ui-ux-agent-skill/` in `~/.codex/skills/` and `agents/openai.yaml` in project root
 - **Claude Code**: place `CLAUDE.md` in project root (it loads `AGENTS.md` and `SKILL.md`)
-- **Cursor**: place `.cursor/rules/design-craft.mdc` in project root
+- **Cursor**: place `.cursor/rules/ui-ux-agent-skill.mdc` in project root
 - **Windsurf**: place `AGENTS.md` in project root
 
 ## How to Use
@@ -74,7 +74,7 @@ Copy the relevant files into your project or user-level config:
 Ask your AI assistant to apply design guidance:
 
 ```
-Use the design-craft skill in guide mode. I'm building a settings page
+Use the ui-ux-agent-skill skill in guide mode. I'm building a settings page
 for a SaaS dashboard. The user needs to manage notification preferences,
 API keys, and team member roles.
 ```
@@ -84,7 +84,7 @@ API keys, and team member roles.
 Ask your AI assistant to review existing UI:
 
 ```
-Use the design-craft skill in review mode. Review this screenshot of our
+Use the ui-ux-agent-skill skill in review mode. Review this screenshot of our
 onboarding flow. The primary user task is creating their first project.
 ```
 
@@ -111,9 +111,9 @@ onboarding flow. The primary user task is creating their first project.
 ├── CLAUDE.md                          # Claude Code bridge
 ├── README.md                          # This file
 ├── LICENSE.txt                        # Apache 2.0
-├── .cursor/rules/design-craft.mdc     # Cursor integration
-├── agents/openai.yaml                 # Codex/OpenAI integration
-└── skills/design-craft/
+├── .cursor/rules/ui-ux-agent-skill.mdc  # Cursor integration
+├── agents/openai.yaml                   # Codex/OpenAI integration
+└── skills/ui-ux-agent-skill/
     ├── SKILL.md                       # Core skill definition
     └── references/
         ├── system-principles.md       # 11 system-level guiding principles
@@ -136,7 +136,7 @@ This skill uses a hub-and-spoke model:
 
 - **`AGENTS.md`** is the single source of truth for repository-level conventions.
 - **`SKILL.md`** contains the actual skill behavior, principles, and workflows.
-- **Bridge files** (`CLAUDE.md`, `.cursor/rules/design-craft.mdc`, `agents/openai.yaml`) are thin pointers that load the shared content. No duplication of rules across tools.
+- **Bridge files** (`CLAUDE.md`, `.cursor/rules/ui-ux-agent-skill.mdc`, `agents/openai.yaml`) are thin pointers that load the shared content. No duplication of rules across tools.
 
 ## Attribution
 

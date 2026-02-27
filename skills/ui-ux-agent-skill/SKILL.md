@@ -1,5 +1,5 @@
 ---
-name: design-craft
+name: ui-ux-agent-skill
 description: >
   Production-grade UI/UX guidance and review skill. Transforms vague design feedback into
   actionable, implementable recommendations. Two modes: `guide` (principles + do/don't rules
@@ -10,7 +10,7 @@ description: >
   for emoji-as-icons, decoration-first design, or AI-generated visual excess.
 ---
 
-# Design Craft — UI/UX Guide (Modern Minimal)
+# UI/UX Agent Skill — UI/UX Guide (Modern Minimal)
 
 A skill for AI coding assistants that turns abstract design feedback into code you can ship.
 
