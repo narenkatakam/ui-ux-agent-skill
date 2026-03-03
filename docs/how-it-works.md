@@ -11,7 +11,7 @@ Tell it what you're building. Get back design principles tailored to your surfac
 **Example prompt:**
 
 ```
-Use the ui-ux-agent-skill in guide mode.
+Use the ux-audit skill in guide mode.
 I'm building a settings page for a SaaS dashboard.
 Users need to manage notification preferences, API keys, and team roles.
 ```
@@ -34,13 +34,13 @@ Users need to manage notification preferences, API keys, and team roles.
 
 ```
 # Specific surface
-"I'm building a checkout flow for a subscription product. Apply the ui-ux-agent-skill."
+"I'm building a checkout flow for a subscription product. Apply the ux-audit skill."
 
 # Specific domain focus
-"Check the accessibility of this form component against the ui-ux-agent-skill."
+"Check the accessibility of this form component against the ux-audit skill."
 
 # During code generation
-"Generate a settings page. Follow the ui-ux-agent-skill principles."
+"Generate a settings page. Follow the ux-audit principles."
 ```
 
 ---
@@ -52,7 +52,7 @@ Share a screenshot, mock, HTML, or PR. Get back a structured audit with prioriti
 **Example prompt:**
 
 ```
-Use the ui-ux-agent-skill in review mode.
+Use the ux-audit skill in review mode.
 Review this screenshot of our onboarding flow.
 The primary user task is creating their first project.
 ```

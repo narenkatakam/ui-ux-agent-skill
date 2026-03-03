@@ -12,7 +12,7 @@ What it was missing: accessibility, responsive design, typography, color systems
 |---|---|---|
 | Language | Chinese (docs + demos) | English |
 | Core principles | 8 (A-H) | 12 (A-L) |
-| Reference docs | 6 | 12 |
+| Reference docs | 6 | 10 |
 | Accessibility | Not covered | Full WCAG 2.1 AA guide |
 | Responsive | Not covered | Mobile-first guide |
 | Typography | Not covered | Type scale, pairing, hierarchy |

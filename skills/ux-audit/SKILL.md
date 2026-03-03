@@ -1,7 +1,7 @@
 ---
-name: ui-ux-agent-skill
+name: ux-audit
 description: >
-  Production-grade UI/UX guidance and review skill. Transforms vague design feedback into
+  Production-grade UX audit and design guidance skill. Transforms vague design feedback into
   actionable, implementable recommendations. Two modes: `guide` (principles + do/don't rules
   for modern interfaces) and `review` (structured audit with prioritized fixes). Covers
   task-first UX, information architecture, CRAP visual hierarchy, accessibility, responsive
@@ -10,7 +10,7 @@ description: >
   for emoji-as-icons, decoration-first design, or AI-generated visual excess.
 ---
 
-# UI/UX Agent Skill — UI/UX Guide (Modern Minimal)
+# UX Audit — Design Guidance & Review (Modern Minimal)
 
 A skill for AI coding assistants that turns abstract design feedback into code you can ship.
 
@@ -44,7 +44,7 @@ Keep outputs concise. Bullets over paragraphs. Specific over generic.
 
 1. State assumptions (platform, target user, primary task).
 2. List findings as `P0 / P1 / P2` (blocker / important / polish) with short evidence.
-3. For each major issue, label the diagnosis: execution vs evaluation gulf; slip vs mistake (see `references/design-psych.md`).
+3. For each major issue, label the diagnosis: execution vs evaluation gulf; slip vs mistake (see `references/psychology.md`).
 4. Propose fixes that are implementable (layout, hierarchy, components, copy, states).
 5. Check accessibility compliance against `references/accessibility.md`.
 6. End with a short checklist to verify changes.
@@ -98,7 +98,7 @@ Review question: Does the grouping match how users think about this, or how the 
 
 ### C) Feedback and System Status
 
-- Cover all states: loading, empty, error, success, permission. Full checklist in `references/checklists.md`.
+- Cover all states: loading, empty, error, success, permission. Full checklist in `references/review-template.md` (Universal States gate).
 - After any action, answer three questions: "Did it work?" + "What changed?" + "What can I do next?"
 - Prefer inline, contextual feedback over global toasts (except for cross-page actions).
 - Loading states must prevent layout jumps — use skeletons, not spinners that collapse content.
@@ -118,7 +118,7 @@ Review question: If someone learns this pattern on page A, will it transfer to p
 - Clickable things must look clickable: button/link styling + hover/focus + cursor change. On web, custom clickable elements need `cursor: pointer` and visible focus styles.
 - Primary actions need a label; icon-only is reserved for universally-known actions (search, close, settings).
 - Show constraints before submit (format, units, required), not only after errors.
-- For deeper theory: `references/design-psych.md`.
+- For deeper theory: `references/psychology.md`.
 
 Review question: Without any help text or tooltips, can users predict what is actionable and what will happen?
 
@@ -248,6 +248,16 @@ Red flags:
 - Big page-level transitions for routine navigation
 - Multiple simultaneous animations competing for attention
 
+Quick check:
+- [ ] Every animation serves a purpose: hierarchy (layers), state change (feedback), or spatial orientation.
+- [ ] No decorative motion: no breathing backgrounds, floating elements, or bouncing icons.
+- [ ] Duration: micro-interactions 100-200ms. Panel/page transitions 200-350ms. Nothing longer than 500ms without a reason.
+- [ ] Easing: ease-out for entrances, ease-in for exits, ease-in-out for position changes. No linear motion for UI elements.
+- [ ] `prefers-reduced-motion` is respected.
+- [ ] No animation blocks interaction.
+- [ ] Same component type uses the same motion pattern throughout the product.
+- [ ] No more than one animation playing at a time in the user's focal area.
+
 ---
 
 ## Anti-AI Self-Check (run after generating any UI)
@@ -267,8 +277,7 @@ Before finalizing generated UI, verify these items. Violating any one is a manda
 ## References
 
 - System-level guiding principles: `references/system-principles.md`
-- Interaction psychology (Fitts/Hick/Miller, cognitive biases, flow, attention): `references/interaction-psychology.md`
-- Design psychology (affordances, signifiers, mapping, constraints, gulfs, slips vs mistakes): `references/design-psych.md`
+- Psychology (Norman's design foundations, HCI laws, cognitive biases, interaction flow, attention): `references/psychology.md`
 - Accessibility (WCAG, keyboard, screen readers, color, forms, media): `references/accessibility.md`
 - Responsive design (breakpoints, mobile-first, touch, fluid layouts): `references/responsive-design.md`
 - Typography (type scale, pairing, line height, measure, hierarchy): `references/typography.md`
@@ -276,5 +285,4 @@ Before finalizing generated UI, verify these items. Violating any one is a manda
 - Navigation patterns (nav structures, wayfinding, mobile nav): `references/navigation.md`
 - Data visualization (chart selection, data-ink ratio, dashboard design): `references/data-visualization.md`
 - Icon rules and "intuitive refined" guidance: `references/icons.md`
-- Review output template and scoring: `references/review-template.md`
-- Expanded checklists (states, affordance, lists, forms, settings, motion, dashboards, copy): `references/checklists.md`
+- Review output template, verification gates, and surface-specific checklists: `references/review-template.md`

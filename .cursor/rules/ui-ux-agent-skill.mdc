@@ -1,7 +1,0 @@
----
-description: "UI/UX design guidance and review skill"
-alwaysApply: true
----
-
-Follow `AGENTS.md` for repository-level conventions.
-Follow `skills/ui-ux-agent-skill/SKILL.md` for skill behavior, principles, and review workflows.

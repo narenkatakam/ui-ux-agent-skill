@@ -1,6 +1,6 @@
 # Coverage
 
-12 core principles and 12 reference documents, spanning cognitive psychology to CSS spacing scales.
+12 core principles and 10 reference documents, spanning cognitive psychology to CSS spacing scales.
 
 ```mermaid
 flowchart TB
@@ -25,9 +25,9 @@ flowchart TB
     end
 
     subgraph Psych["Psychology"]
-        O["Design Psychology"]
-        P["Interaction Laws"]
-        Q["Cognitive Biases"]
+        O["Design Foundations"]
+        P["HCI Laws + Biases"]
+        Q["Interaction Flow + Attention"]
     end
 ```
 
@@ -45,8 +45,7 @@ flowchart TB
 | **Color Systems** | Palette structure, semantic tokens, WCAG contrast, dark mode, data viz color, psychology | `color-systems.md` |
 | **Navigation** | Nav patterns (top/side/bottom/hamburger), breadcrumbs, tabs, wayfinding, search, mobile nav | `navigation.md` |
 | **Data Visualization** | Data-ink ratio, chart type selection, dashboard design, axis/label rules, interaction, formatting | `data-visualization.md` |
-| **Design Psychology** | Affordances, signifiers, mapping, constraints, conceptual models, feedback, gulfs of execution/evaluation, slips vs mistakes | `design-psych.md` |
-| **Interaction Psychology** | Fitts's Law, Hick's Law, Miller's Law, anchoring, default effect, peak-end rule, loss aversion, inattentional blindness | `interaction-psychology.md` |
+| **Psychology** | Affordances, signifiers, mapping, constraints, conceptual models, feedback, gulfs, slips vs mistakes, Fitts's/Hick's/Miller's Law, cognitive biases, interaction flow, attention economy | `psychology.md` |
 | **Icons** | No-emoji rule, one-family rule, when to use text instead, suggested sets (Lucide, Heroicons, Phosphor), common mappings | `icons.md` |
 | **Motion** | Animation purpose, motion vocabulary, canvas stability, red flags, consistency rules | `SKILL.md` |
 

@@ -1,4 +1,4 @@
-# UI/UX Agent Skill
+# UX Audit
 
 **Give your AI coding assistant a design eye.**
 
@@ -14,7 +14,7 @@ This skill gives them a structured framework — 12 design principles grounded i
 
 ```mermaid
 flowchart LR
-    A["Describe what you're building"] --> B{"UI/UX Agent Skill"}
+    A["Describe what you're building"] --> B{"UX Audit"}
     C["Share existing UI"] --> B
     B -->|Guide| D["Principles + rules for your surface"]
     B -->|Review| E["Prioritized findings + fixes"]
@@ -23,7 +23,7 @@ flowchart LR
 **Guide Mode** — you describe what you're building, you get back tailored principles with implementable do/don't rules.
 
 ```
-"I'm building a settings page for a SaaS dashboard. Apply the ui-ux-agent-skill."
+"I'm building a settings page for a SaaS dashboard. Apply the ux-audit skill."
 ```
 
 > Groups settings by mental model, layers help text, enforces accessible toggles, validates inline. [Full example](./docs/how-it-works.md#guide-mode)
@@ -31,7 +31,7 @@ flowchart LR
 **Review Mode** — you share a screenshot, HTML, or PR, you get back a structured audit.
 
 ```
-"Review this onboarding flow. Use the ui-ux-agent-skill in review mode."
+"Review this onboarding flow. Use the ux-audit skill in review mode."
 ```
 
 > P0: no feedback after button click. P1: 8-field form should be 1. Each with diagnosis, evidence, and fix. [Full example](./docs/how-it-works.md#review-mode)
@@ -43,22 +43,22 @@ flowchart LR
 ### One command, all agents
 
 ```bash
-npx skills add narenkatakam/ui-ux-agent-skill -a codex -a claude-code -a cursor -a windsurf
+npx skills add narenkatakam/ux-audit -a codex -a claude-code -a cursor -a windsurf
 ```
 
 Add `-g` for global (applies to all your projects):
 
 ```bash
-npx skills add narenkatakam/ui-ux-agent-skill -g -a codex -a claude-code -a cursor -a windsurf
+npx skills add narenkatakam/ux-audit -g -a codex -a claude-code -a cursor -a windsurf
 ```
 
 ### Single agent
 
 ```bash
-npx skills add narenkatakam/ui-ux-agent-skill -a claude-code    # Claude Code
-npx skills add narenkatakam/ui-ux-agent-skill -a codex           # Codex
-npx skills add narenkatakam/ui-ux-agent-skill -a cursor          # Cursor
-npx skills add narenkatakam/ui-ux-agent-skill -a windsurf        # Windsurf
+npx skills add narenkatakam/ux-audit -a claude-code    # Claude Code
+npx skills add narenkatakam/ux-audit -a codex           # Codex
+npx skills add narenkatakam/ux-audit -a cursor          # Cursor
+npx skills add narenkatakam/ux-audit -a windsurf        # Windsurf
 ```
 
 ### Usage
@@ -66,10 +66,10 @@ npx skills add narenkatakam/ui-ux-agent-skill -a windsurf        # Windsurf
 Once installed, just ask naturally. The skill activates based on context.
 
 ```
-"I'm building a dashboard for monitoring API usage. Apply the ui-ux-agent-skill."
-"Review this component for UX issues. Use the ui-ux-agent-skill in review mode."
-"Check the accessibility of this form against the ui-ux-agent-skill."
-"Generate a settings page. Follow the ui-ux-agent-skill principles."
+"I'm building a dashboard for monitoring API usage. Apply the ux-audit skill."
+"Review this component for UX issues. Use the ux-audit skill in review mode."
+"Check the accessibility of this form against the ux-audit skill."
+"Generate a settings page. Follow the ux-audit principles."
 ```
 
 [Manual installation](./docs/architecture.md#manual-installation) | [Full prompt examples](./docs/how-it-works.md)

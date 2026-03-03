@@ -1,11 +1,11 @@
-# UI/UX Agent Skill
+# UX Audit
 
-This is a UI/UX guidance and review skill for AI coding assistants.
+This is a UX audit and design guidance skill for AI coding assistants.
 
 ## Loading Order
 
 1. Load `AGENTS.md` for repository-level conventions.
-2. Load `skills/ui-ux-agent-skill/SKILL.md` for skill behavior and principles.
+2. Load `skills/ux-audit/SKILL.md` for skill behavior and principles.
 
 ## Conflict Resolution
 

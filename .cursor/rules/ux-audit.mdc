@@ -1,0 +1,7 @@
+---
+description: "UX audit and design guidance skill"
+alwaysApply: true
+---
+
+Follow `AGENTS.md` for repository-level conventions.
+Follow `skills/ux-audit/SKILL.md` for skill behavior, principles, and review workflows.

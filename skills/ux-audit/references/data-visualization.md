@@ -209,3 +209,23 @@ Run through these before shipping any data visualization:
 - [ ] Is chart junk eliminated (no 3D, no gradients, no decorative gridlines)?
 - [ ] Do time-based charts have clear, unambiguous date formatting?
 - [ ] Are loading and empty states handled (skeleton screens, "no data" messages)?
+
+---
+
+## Dashboard Checklist
+
+Run through these when reviewing or building dashboards specifically:
+
+- [ ] Primary metric / KPI is the most visually prominent element on the page.
+- [ ] Metrics show context: current value + trend (up/down/flat) + comparison period.
+- [ ] Time range selector is visible and defaults to the most useful period.
+- [ ] Data density is appropriate: dashboards should be scannable, not require close reading.
+- [ ] Empty data states are handled: "No data for this period" not a blank chart.
+- [ ] Loading states for each widget independently — don't hold the entire dashboard for one slow query.
+- [ ] Filters apply globally and their state is visible. Active filters shown as chips or in a filter bar.
+- [ ] Drill-down is available: clicking a metric or chart segment leads to detail data.
+- [ ] Responsive: widgets reflow from multi-column to single-column. Charts remain legible at narrow widths.
+- [ ] Color is used consistently: green = positive, red = negative, gray = neutral. Never reversed.
+- [ ] Data refreshes are indicated: last-updated timestamp, auto-refresh indicator, or manual refresh button.
+
+**Review question:** Glance at this dashboard for 3 seconds. Can you answer the most important question it's meant to answer?
