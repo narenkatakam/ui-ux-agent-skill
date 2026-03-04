@@ -38,32 +38,77 @@ flowchart LR
 
 ---
 
-## Install & Use
+## Install
 
-### One command, all agents
+### Quick install (recommended)
 
-```bash
-npx skills add narenkatakam/ux-audit -a codex -a claude-code -a cursor -a windsurf
-```
-
-Add `-g` for global (applies to all your projects):
+Interactive installer — detects your agent and sets everything up:
 
 ```bash
-npx skills add narenkatakam/ux-audit -g -a codex -a claude-code -a cursor -a windsurf
+curl -sSL https://raw.githubusercontent.com/narenkatakam/ux-audit/main/install.sh | bash
 ```
 
-### Single agent
+Or clone and run directly:
 
 ```bash
-npx skills add narenkatakam/ux-audit -a claude-code    # Claude Code
-npx skills add narenkatakam/ux-audit -a codex           # Codex
-npx skills add narenkatakam/ux-audit -a cursor          # Cursor
-npx skills add narenkatakam/ux-audit -a windsurf        # Windsurf
+git clone https://github.com/narenkatakam/ux-audit.git
+cd ux-audit && ./install.sh
 ```
+
+### Per-agent install
+
+**Claude Code** — copy the skill into your project or global config:
+
+```bash
+# Global (all projects)
+mkdir -p ~/.claude/skills/ux-audit
+cp -r skills/ux-audit/* ~/.claude/skills/ux-audit/
+# Then add to your CLAUDE.md: "Load skills from ~/.claude/skills/ux-audit/SKILL.md"
+
+# Project-level
+mkdir -p .claude/skills/ux-audit
+cp -r skills/ux-audit/* .claude/skills/ux-audit/
+```
+
+**Cursor** — drop the rule file into your project:
+
+```bash
+mkdir -p .cursor/rules
+cp .cursor/rules/ux-audit.mdc .cursor/rules/
+cp -r skills/ AGENTS.md .
+```
+
+**Codex** — copy the skill and config:
+
+```bash
+cp agents/openai.yaml .
+cp -r skills/ .
+```
+
+**Windsurf** — copy AGENTS.md and the skill:
+
+```bash
+cp AGENTS.md .
+cp -r skills/ .
+```
+
+### Try without installing
+
+Paste these 5 rules into your AI assistant's system prompt to test the difference:
+
+```
+1. No emoji as UI icons — use a proper icon set.
+2. One primary CTA per screen, identifiable in 3 seconds.
+3. Cover all states: loading, empty, error, success.
+4. WCAG 2.1 AA contrast minimum on all text.
+5. Spacing: 4px base unit, tight within groups, loose between.
+```
+
+If that changes how your AI builds UI, install the full skill — it has 12 principles, 10 reference docs, and structured review workflows.
 
 ### Usage
 
-Once installed, just ask naturally. The skill activates based on context.
+Once installed, just ask naturally:
 
 ```
 "I'm building a dashboard for monitoring API usage. Apply the ux-audit skill."
@@ -72,7 +117,7 @@ Once installed, just ask naturally. The skill activates based on context.
 "Generate a settings page. Follow the ux-audit principles."
 ```
 
-[Manual installation](./docs/architecture.md#manual-installation) | [Full prompt examples](./docs/how-it-works.md)
+[Architecture & manual install details](./docs/architecture.md) | [Full prompt examples](./docs/how-it-works.md)
 
 ---
 

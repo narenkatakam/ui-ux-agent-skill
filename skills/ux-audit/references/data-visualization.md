@@ -82,6 +82,83 @@ This is the most common mistake in data visualization — picking a chart type b
 
 ---
 
+## Data Tables
+
+**Core idea:** Tables are the most common data UI in enterprise/admin interfaces. A well-designed table is faster to scan than any chart. Most of the data work in real products lives in tables, not dashboards — treat them as first-class UI.
+
+### Layout Rules
+
+- **Left-align text, right-align numbers.** Numbers right-aligned so decimal points and digit places line up vertically. This is the single most impactful table readability rule.
+- **Column headers:** Same alignment as their data column. Semibold weight. Smaller font size or uppercase letter-spacing for visual separation from row data.
+- **Row height:** 48-56px for comfortable scanning. 40px for dense/admin views where users are power users and screen real estate matters. Below 40px, rows blur together.
+- **Horizontal lines between rows** — subtle, `gray-200` weight. No vertical lines. No zebra striping. Use hover highlight (`gray-50` or `gray-100` background) instead — it's less noisy and gives the user an active reading aid.
+- **Cell padding:** 12-16px horizontal. Consistent across all columns. Don't let content touch cell edges.
+- **Column width:** Size to content, not evenly distributed. Name columns get more space than status columns. Allow text truncation with tooltips for overflow — never wrap text in data cells.
+
+### Sorting and Filtering
+
+- **Every column with meaningful data should be sortable.** If a user might want to rank by it, let them.
+- **Current sort state must be visible:** Arrow icon (up/down) in the active header + a differentiated header style (bold, color, or background). Users need to know what's sorted and in which direction without guessing.
+- **Filters: show as chips above the table**, not hidden in a dropdown or sidebar. Active filters must be visible at all times — hidden filters are the #1 cause of "where did my data go?" support tickets.
+- **Search:** Full-text search input above the table for tables with 20+ rows. Debounce at 300ms. Highlight matching text in results if feasible.
+- **Default sort must be intentional.** Most recent first for time-based data. Alphabetical for name lists. Most important metric descending for performance tables. Never random.
+
+### Selection and Bulk Actions
+
+- **Checkbox column on the left** for multi-select. First column, always. Fixed width (40-48px).
+- **Selected count + bulk action bar** appears at the top of the table when 1+ items are selected. Pattern: "3 selected — [Export] [Delete] [Assign]". This bar replaces or overlays the header row.
+- **Select all:** Applies to the current filtered/visible view, not all data across all pages. If users need to select all 10,000 records, provide an explicit "Select all 10,000" link after they select the visible page.
+- **Deselect all** must be one click. A clear "×" or "Deselect all" in the bulk action bar.
+- **Shift+click for range selection.** Desktop users expect this. Don't skip it.
+
+### Pagination vs Infinite Scroll
+
+- **Pagination for data > 50 rows.** Predictable, bookmarkable, and users can orient themselves ("page 3 of 12").
+- **Show:** Total count, current page, rows-per-page control (10 / 25 / 50 / 100).
+- **Infinite scroll only for feeds/timelines** — chronological, consumption-oriented content. Never for actionable data tables where users need to find, compare, or act on specific rows.
+- **URL state:** Current page, sort, and filters should be reflected in the URL. Users share links to specific table views. "I'm looking at page 5 sorted by revenue" should be a shareable URL, not session state.
+
+### Row Actions
+
+- **Inline actions on hover** (edit, delete, view) — max 2-3 visible icons. Right-aligned in a dedicated actions column.
+- **Overflow menu (three-dot icon)** for 4+ actions. Opens a dropdown with clear labels, not just icons.
+- **Never put critical actions behind a hover state on mobile.** Mobile has no hover. Use a row-click to navigate to a detail page, or show action icons persistently.
+- **Destructive actions (delete, archive) need confirmation.** Inline confirmation ("Are you sure?") or undo toast — not a modal dialog for every delete.
+- **Row click behavior must be clear.** Either the whole row is clickable (navigates to detail), or only specific elements are clickable. Not both. If the row is clickable, add a subtle hover cursor and visual feedback.
+
+### Responsive Tables
+
+- **Tables > 4 columns on mobile:** Horizontal scroll with the first column (usually name/identifier) sticky. The user always knows which row they're looking at while scrolling right.
+- **Alternative: card layout on mobile.** Each row becomes a stacked card with label-value pairs. Better for tables where every column matters equally.
+- **Never just let the table overflow and hope users scroll.** They won't discover the hidden columns. Either scroll with a sticky column, reflow to cards, or hide non-essential columns with a "Columns" toggle.
+- **Priority columns:** On narrow viewports, show the 2-3 most important columns. Let users toggle others. This requires knowing which columns matter — make it configurable or make a product decision.
+
+### Empty and Loading States
+
+- **Empty state:** Centered message + illustration or icon + CTA. "No results found. Try adjusting your filters." or "No projects yet. Create your first project." Never a blank white rectangle where rows should be.
+- **Loading: Skeleton rows matching the table structure.** Match column widths, row heights, and alignment. Not a spinner replacing the whole table — that destroys spatial context and flashes the layout.
+- **Partial loading:** If data loads in chunks (pagination), show the skeleton for the next page while keeping current data visible. Don't clear the screen to show a loader.
+- **Error state:** "Failed to load data. [Retry]" in the table body area. Preserve any filters/sort state so retry doesn't reset the user's context.
+
+### Table Checklist
+
+- [ ] Text is left-aligned, numbers are right-aligned in every column.
+- [ ] Column headers match the alignment of their data and are visually distinct (semibold, smaller size, or uppercase).
+- [ ] Row height is 48-56px (standard) or 40px (dense) — not cramped, not wasteful.
+- [ ] Horizontal row dividers are subtle (`gray-200`). No vertical lines, no zebra stripes.
+- [ ] Sort state is visible: active column header is differentiated and shows direction arrow.
+- [ ] Active filters are shown as chips above the table, not hidden in menus.
+- [ ] Multi-select uses a checkbox column, and bulk actions appear in a top bar with selected count.
+- [ ] Pagination shows total count, current page, and rows-per-page control for tables > 50 rows.
+- [ ] Row actions are discoverable: 2-3 inline on hover, overflow menu for more, no hover-dependent actions on mobile.
+- [ ] Responsive behavior is handled: sticky first column with horizontal scroll or card layout on mobile.
+- [ ] Empty state has a message + CTA — never a blank table body.
+- [ ] Loading state uses skeleton rows matching table structure — never a full-table spinner.
+
+**Review question:** Can a user find a specific row, understand its data, and take action on it within 5 seconds?
+
+---
+
 ## Axes and Labels
 
 **Core idea:** Axes are the coordinate system for understanding the data. Get them wrong and every reading is wrong.

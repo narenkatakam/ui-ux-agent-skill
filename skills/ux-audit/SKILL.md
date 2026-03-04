@@ -85,6 +85,26 @@ The thing about any interface is that it exists to serve a task. Not to look goo
 - Optimize the happy path; hide advanced controls behind progressive disclosure.
 - Remove anything that doesn't serve the user's current goal.
 
+**Do:**
+```html
+<section class="space-y-4">
+  <h1 class="text-2xl font-semibold">Create new project</h1>
+  <input class="w-full border rounded-lg px-4 py-3" placeholder="Project name" />
+  <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium">Create project</button>
+  <details class="text-sm text-gray-500"><summary>Advanced settings</summary>...</details>
+</section>
+```
+
+**Don't:**
+```html
+<!-- Two competing CTAs, advanced options visible by default, no clear hierarchy -->
+<section>
+  <button class="bg-blue-600 text-white px-4 py-2">Create project</button>
+  <button class="bg-green-600 text-white px-4 py-2">Import from template</button>
+  <div class="grid grid-cols-3 gap-4"><!-- 12 settings fields visible immediately --></div>
+</section>
+```
+
 Review question: If someone lands here cold, can they figure out what to do in 3 seconds?
 
 ### B) Information Architecture (grouping + findability)
@@ -93,6 +113,26 @@ Review question: If someone lands here cold, can they figure out what to do in 3
 - Use clear section titles; keep navigation patterns stable across similar screens.
 - When item count grows: add search/filter/sort early, not late.
 - Card sort your IA against real user language, not your internal nomenclature.
+
+**Do:**
+```html
+<!-- Grouped by user goal: "What I need to do" vs "What I've done" -->
+<section>
+  <h2>Pending reviews</h2>
+  <!-- items needing action -->
+</section>
+<section>
+  <h2>Completed</h2>
+  <!-- finished items -->
+</section>
+```
+
+**Don't:**
+```html
+<!-- Grouped by database table: users see "type_a" and "type_b" which mean nothing to them -->
+<section><h2>Type A records</h2>...</section>
+<section><h2>Type B records</h2>...</section>
+```
 
 Review question: Does the grouping match how users think about this, or how the database stores it?
 
@@ -103,6 +143,29 @@ Review question: Does the grouping match how users think about this, or how the 
 - Prefer inline, contextual feedback over global toasts (except for cross-page actions).
 - Loading states must prevent layout jumps — use skeletons, not spinners that collapse content.
 
+**Do:**
+```jsx
+// Skeleton preserves layout while loading
+<div class="space-y-3">
+  <div class="h-6 w-48 bg-gray-200 rounded animate-pulse" />
+  <div class="h-4 w-full bg-gray-200 rounded animate-pulse" />
+  <div class="h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
+</div>
+
+// Inline success feedback after action
+<button onClick={save}>Save</button>
+{saved && <span class="text-green-600 text-sm ml-2">Saved</span>}
+```
+
+**Don't:**
+```jsx
+// Spinner replaces all content — layout jumps when data arrives
+{loading ? <Spinner /> : <Content />}
+
+// Toast for same-page action with no inline confirmation
+toast.success("Settings updated!") // user's eyes are on the form, not the toast
+```
+
 Review question: At any moment, can the user tell what the system is doing and what they should do next?
 
 ### D) Consistency and Predictability
@@ -110,6 +173,21 @@ Review question: At any moment, can the user tell what the system is doing and w
 - Same interaction = same component + same wording + same placement.
 - Use a small, stable set of component variants; avoid one-off styles.
 - Consistency across screens matters more than pixel-perfection on any single screen.
+
+**Do:**
+```html
+<!-- Same delete pattern everywhere: red outline button, same wording -->
+<button class="border border-red-300 text-red-600 px-4 py-2 rounded-lg">Delete project</button>
+<button class="border border-red-300 text-red-600 px-4 py-2 rounded-lg">Delete workspace</button>
+```
+
+**Don't:**
+```html
+<!-- Three different patterns for the same action across pages -->
+<button class="bg-red-600 text-white">Delete</button>      <!-- page A: filled -->
+<button class="text-red-500 underline">Remove</button>      <!-- page B: link style -->
+<a href="#" class="text-sm text-gray-500">🗑 Trash</a>      <!-- page C: emoji + different word -->
+```
 
 Review question: If someone learns this pattern on page A, will it transfer to page B without relearning?
 
@@ -120,6 +198,27 @@ Review question: If someone learns this pattern on page A, will it transfer to p
 - Show constraints before submit (format, units, required), not only after errors.
 - For deeper theory: `references/psychology.md`.
 
+**Do:**
+```html
+<button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700
+  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer">
+  Save changes
+</button>
+<input type="email" placeholder="you@example.com"
+  class="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500" />
+<p class="text-xs text-gray-500 mt-1">We'll never share your email.</p>
+```
+
+**Don't:**
+```html
+<!-- Clickable div with no visual affordance, no focus style, no cursor change -->
+<div onclick="save()">Save changes</div>
+
+<!-- Constraints shown only after submit error -->
+<input type="text" placeholder="Password" />
+<!-- after submit: "Password must be 8+ chars with a number" — tell them BEFORE -->
+```
+
 Review question: Without any help text or tooltips, can users predict what is actionable and what will happen?
 
 ### F) Error Prevention and Recovery
@@ -128,6 +227,34 @@ Review question: Without any help text or tooltips, can users predict what is ac
 - Make destructive actions reversible when possible; otherwise require deliberate confirmation.
 - Error messages must be actionable: what happened + how to fix it. Never just "Something went wrong."
 - Frame destructive confirmations around what will be lost, not the action itself.
+
+**Do:**
+```html
+<!-- Inline validation prevents errors before submit -->
+<label class="block text-sm font-medium">Email</label>
+<input type="email" class="border rounded-lg px-4 py-2 border-red-500" value="bad-email" />
+<p class="text-red-600 text-sm mt-1">Enter a valid email address (e.g., you@example.com)</p>
+
+<!-- Destructive confirmation framed around what's lost -->
+<dialog>
+  <p class="font-semibold">Delete "Q4 Report"?</p>
+  <p class="text-sm text-gray-600">This will permanently delete the report and 12 comments. This can't be undone.</p>
+  <button class="bg-red-600 text-white">Delete report</button>
+  <button class="border">Cancel</button>
+</dialog>
+```
+
+**Don't:**
+```html
+<!-- Generic error with no guidance -->
+<div class="bg-red-100 p-4">Something went wrong. Please try again.</div>
+
+<!-- Confirmation that describes the action, not the consequence -->
+<dialog>
+  <p>Are you sure you want to delete?</p>
+  <button>Yes</button> <button>No</button>
+</dialog>
+```
 
 Review question: Is the path designed to be easy to do right and safe to recover when wrong?
 
@@ -138,6 +265,32 @@ Review question: Is the path designed to be easy to do right and safe to recover
 - Keep visual noise low: fewer borders, fewer colors, fewer competing highlights.
 - Don't force users to remember information across screens — carry context forward.
 
+**Do:**
+```html
+<!-- Sensible defaults reduce decisions -->
+<label>Timezone</label>
+<select><option selected>Europe/Amsterdam (detected)</option>...</select>
+
+<!-- Context carried forward: selected plan shown on checkout -->
+<div class="bg-gray-50 rounded-lg p-4 mb-6">
+  <p class="text-sm text-gray-500">Selected plan</p>
+  <p class="font-medium">Pro — $29/mo</p>
+</div>
+```
+
+**Don't:**
+```html
+<!-- 15 options with no defaults, no recommended choice -->
+<fieldset>
+  <legend>Choose your plan</legend>
+  <label><input type="radio" /> Starter</label>
+  <label><input type="radio" /> Basic</label>
+  <label><input type="radio" /> Basic Plus</label>
+  <label><input type="radio" /> Standard</label>
+  <!-- ... 11 more options with no visual hierarchy -->
+</fieldset>
+```
+
 Review question: As information grows, does comprehension cost stay stable?
 
 ### H) CRAP (visual hierarchy + layout)
@@ -146,6 +299,38 @@ Review question: As information grows, does comprehension cost stay stable?
 - **Repetition** — tokens, components, and spacing follow a scale. Avoid "almost the same" styles — they create cognitive noise.
 - **Alignment** — align to a clear grid. Fix 2px drift. Align baselines where text matters.
 - **Proximity** — tight within a group, loose between groups. Spacing is the primary grouping tool, not borders.
+
+**Do:**
+```html
+<!-- Clear hierarchy: one bold CTA, muted secondary, grouped by proximity -->
+<div class="space-y-6">
+  <div class="space-y-1">                          <!-- tight: label + input are one group -->
+    <label class="text-sm font-medium">Project name</label>
+    <input class="border rounded-lg px-4 py-2 w-full" />
+  </div>
+  <div class="space-y-1">
+    <label class="text-sm font-medium">Description</label>
+    <textarea class="border rounded-lg px-4 py-2 w-full"></textarea>
+  </div>
+  <div class="flex gap-3 pt-4">                    <!-- loose: buttons separated from form -->
+    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg">Create</button>
+    <button class="text-gray-500">Cancel</button>
+  </div>
+</div>
+```
+
+**Don't:**
+```html
+<!-- Everything competes: two bold buttons, borders everywhere, no proximity grouping -->
+<div class="border p-4">
+  <label class="font-bold text-lg">Project name</label>
+  <input class="border-2 border-blue-500 rounded p-2 w-full" />
+  <label class="font-bold text-lg mt-2">Description</label>
+  <textarea class="border-2 border-blue-500 rounded p-2 w-full"></textarea>
+  <button class="bg-blue-600 text-white font-bold px-4 py-2 mt-2">Create</button>
+  <button class="bg-gray-600 text-white font-bold px-4 py-2 mt-2">Cancel</button>
+</div>
+```
 
 Review question: Close your eyes, open them — is the first thing you see the most important thing on the page?
 
@@ -159,6 +344,30 @@ Accessibility is not a feature. It's a quality standard. Like structural integri
 - Screen reader users must get equivalent information and functionality.
 - Full guidance: `references/accessibility.md`.
 
+**Do:**
+```html
+<!-- Status uses color + icon + text -->
+<span class="flex items-center gap-1.5 text-red-600">
+  <svg class="w-4 h-4"><!-- X icon --></svg>
+  Failed
+</span>
+
+<!-- Focus visible, skip link, semantic structure -->
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4
+  bg-white px-4 py-2 rounded shadow">Skip to content</a>
+<main id="main" tabindex="-1">...</main>
+```
+
+**Don't:**
+```html
+<!-- Color is the only indicator — invisible to color-blind users -->
+<span style="color: red">●</span>  <!-- what does red dot mean? -->
+<span style="color: green">●</span>
+
+<!-- Non-semantic div with click handler, no keyboard support, no role -->
+<div onclick="submit()" style="background: blue; color: white; padding: 8px">Submit</div>
+```
+
 Review question: Can a user who can't see color, can't use a mouse, or can't see at all still complete the primary task?
 
 ### J) Responsive Design
@@ -167,6 +376,32 @@ Review question: Can a user who can't see color, can't use a mouse, or can't see
 - Content hierarchy should be preserved across breakpoints, not just reflowed.
 - Touch targets: minimum 44x44 CSS px (web) / 48x48 dp (mobile).
 - Full guidance: `references/responsive-design.md`.
+
+**Do:**
+```html
+<!-- Mobile-first: single column, stacks naturally, enhances at breakpoints -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="p-6">...</div>
+  <div class="p-6">...</div>
+  <div class="p-6">...</div>
+</div>
+
+<!-- Touch-friendly: 44px min tap target with adequate spacing -->
+<button class="min-h-[44px] min-w-[44px] px-4 py-3">Action</button>
+```
+
+**Don't:**
+```html
+<!-- Fixed desktop width, breaks on mobile -->
+<div style="width: 1200px; display: flex; gap: 24px">...</div>
+
+<!-- Tiny tap targets, no spacing between interactive elements -->
+<div class="flex gap-1">
+  <button class="text-xs px-1 py-0.5">Edit</button>
+  <button class="text-xs px-1 py-0.5">Delete</button>
+  <button class="text-xs px-1 py-0.5">Share</button>
+</div>
+```
 
 Review question: Does the interface work on a phone held in one hand, a tablet in landscape, and a wide desktop monitor?
 
@@ -179,6 +414,27 @@ Typography is the backbone of visual hierarchy. Get it right and everything else
 - Line length: 45-75 characters for body text. Wider than that and reading comprehension drops.
 - Full guidance: `references/typography.md`.
 
+**Do:**
+```html
+<!-- Clear scale: 30/20/16/14. One font. Constrained line length -->
+<article class="max-w-prose">             <!-- max-w-prose = ~65ch -->
+  <h1 class="text-3xl font-semibold leading-tight">Page title</h1>
+  <h2 class="text-xl font-medium text-gray-700 mt-6">Section heading</h2>
+  <p class="text-base leading-relaxed text-gray-600 mt-2">Body text...</p>
+  <span class="text-sm text-gray-400">Caption or metadata</span>
+</article>
+```
+
+**Don't:**
+```html
+<!-- Arbitrary sizes, no scale, full-width body text, multiple fonts -->
+<h1 style="font-size: 28px; font-family: Playfair Display">Title</h1>
+<h2 style="font-size: 19px; font-family: Roboto">Subtitle</h2>
+<p style="font-size: 15px; font-family: Open Sans; width: 100%">
+  Body text running edge to edge across a 1440px monitor...
+</p>
+```
+
 Review question: Can you identify the hierarchy (title > subtitle > body > caption) just from the typography?
 
 ### L) Color Systems
@@ -187,6 +443,29 @@ Review question: Can you identify the hierarchy (title > subtitle > body > capti
 - Use semantic color tokens, not raw hex values — this makes theming and dark mode possible.
 - Test all color combinations for WCAG AA contrast (4.5:1 for text, 3:1 for large text and UI components).
 - Full guidance: `references/color-systems.md`.
+
+**Do:**
+```css
+/* Semantic tokens — change theme by swapping values, not rewriting components */
+:root {
+  --color-text-primary: #1a1a1a;
+  --color-bg-primary: #ffffff;
+  --color-action-primary: #2563eb;
+  --color-error: #dc2626;
+}
+```
+```html
+<button class="bg-[var(--color-action-primary)] text-white">Primary action</button>
+```
+
+**Don't:**
+```html
+<!-- Raw hex scattered everywhere — theming impossible, dark mode nightmare -->
+<button style="background: #2563eb; color: #fff">Save</button>
+<button style="background: #3b82f6; color: #fff">Submit</button>  <!-- slightly different blue, why? -->
+<p style="color: #6b7280">Muted text</p>
+<p style="color: #9ca3af">Also muted text but different gray</p>
+```
 
 Review question: If you printed this screen in grayscale, would the hierarchy still be clear?
 
@@ -223,13 +502,35 @@ Use this when implementing or reviewing layouts. Short set of rules, strictly en
 
 ## Modern Minimal Style Guidance
 
-This is about taste, not trends. Modern minimal is not "flat and boring." It's using restraint as a design tool.
+Restraint is the design tool. These are concrete rules, not vibes.
 
-- Use whitespace + typography to create hierarchy. Avoid decoration-first design.
-- Prefer subtle surfaces (light elevation, low-contrast borders). Avoid heavy shadows.
-- Keep color palette small; use one accent color for primary actions and key states.
-- Copy: short, direct labels. Add helper text only when it reduces mistakes or increases trust.
-- Let content breathe. Dense information is not the same as useful information.
+### Surface treatment
+- **Shadows**: max `0 1px 3px rgba(0,0,0,0.1)` for cards, `0 4px 12px rgba(0,0,0,0.08)` for elevated overlays. No blur > 16px. No colored shadows.
+- **Borders**: 1px, `opacity 0.1–0.15` of foreground color. No borders > 1px except active/focus states.
+- **Border radius**: pick one scale and stick to it. Recommended: 6px (small), 8px (medium), 12px (large). Never mix rounded and sharp on the same page.
+- **Backgrounds**: max 2 background tones per page (e.g., white + gray-50). No gradients on surfaces — flat only. Gradient is allowed on one hero element or one CTA, not both.
+
+### Color restraint
+- **Max 2 colors per component** — one foreground/background pair + one accent for interactive state. Third color only for destructive/warning.
+- **One accent color** for primary actions and key states across the entire product. Secondary accent only if functionally distinct (e.g., success vs primary).
+- **Grays do the heavy lifting** — hierarchy comes from weight and shade, not from adding more colors.
+
+### Whitespace
+- **Whitespace:content ratio** — aim for roughly 40-50% whitespace on content-heavy pages, 50-60% on landing/hero pages.
+- **Section spacing** — minimum 48px between major sections, 24px between related groups. If content feels dense, add space before adding borders.
+- **Let content breathe** — dense information is not the same as useful information.
+
+### Copy
+- Short, direct labels. Every word must earn its place.
+- Helper text only when it prevents errors or builds trust.
+- No marketing copy in functional UI. Save it for landing pages.
+
+### Quick check
+- [ ] No shadow blur > 16px anywhere
+- [ ] Max 2 background tones on this page
+- [ ] No component uses more than 2 colors + 1 accent
+- [ ] Whitespace between sections is >= 48px
+- [ ] Every gradient has a functional purpose (not "it looks nice")
 
 ---
 

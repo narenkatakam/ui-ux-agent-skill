@@ -16,6 +16,60 @@ These are binary. No exceptions.
 
 ---
 
+## Sizing Strategy
+
+Concrete numbers. Stop guessing.
+
+- **Standard size scale:** 12px (micro: badges, status dots) → 16px (inline with text, labels) → 20px (buttons, navigation items) → 24px (primary actions, prominent UI) → 32px (feature highlights, empty states) → 48px+ (hero illustrations, onboarding).
+- **Sizing rule:** icon size should match the text size it appears alongside. 16px icon with 14–16px text. 20px icon with 16–18px text. Mismatched sizes create visual tension — the eye catches it even if the brain can't name it.
+- **Touch targets vs icon size:** the icon can be 20px but the tap target must be 44px minimum. Add padding to the button, not the icon. Inflating the icon to meet touch target requirements makes it look cartoonish.
+- **Consistent context sizing:** all icons in a nav bar = same size. All icons in a toolbar = same size. All icons in a table row = same size. Mixing sizes within a context creates visual noise.
+
+**Quick reference:**
+
+| Context | Icon size | Touch target |
+|---|---|---|
+| Inline with body text | 16px | n/a |
+| Buttons and nav items | 20px | 44×44px min |
+| Primary actions | 24px | 48×48px min |
+| Feature highlights | 32px | n/a |
+
+---
+
+## SVG vs Font Icons
+
+This is a settled debate. SVG won. But you'll encounter both.
+
+**SVG icons (recommended for modern projects):**
+
+- Tree-shakeable — only ship icons you use.
+- Style with CSS (`fill`, `stroke`, `currentColor`).
+- Pixel-perfect at every size.
+- Each icon is a separate file or component.
+- Best with: React (inline SVG or icon component library), Tailwind projects.
+
+**Font icons (legacy, avoid for new projects):**
+
+- Load entire icon set regardless of usage (bundle bloat).
+- Can cause FOUT (flash of unstyled text) while font loads.
+- Harder to style individual icons.
+- Still fine if: you're working with an existing codebase that uses them. Don't rewrite for the sake of it.
+
+**Implementation pattern (React + SVG):**
+
+```jsx
+// Using a library like lucide-react
+import { Search, Plus, Trash2 } from 'lucide-react'
+
+<Search className="w-5 h-5 text-gray-500" />         // 20px, muted
+<Plus className="w-5 h-5" />                           // 20px, inherits color
+<Trash2 className="w-4 h-4 text-red-500" />           // 16px, danger
+```
+
+**Optical alignment note:** some icons (triangles, arrows, play buttons) appear off-center even when technically centered. Nudge by 1–2px when needed. This is expected, not a bug — it's called optical compensation.
+
+---
+
 ## The "Intuitive + Refined" Checklist
 
 Run every icon choice through these checks before committing:

@@ -87,16 +87,66 @@ Practical reference for building and reviewing color systems in UI. Use this whe
 
 ## Dark Mode
 
-**Core idea:** Dark mode is a separate design problem, not a CSS filter. Inverting your light palette will produce something that technically renders but is painful to use.
+**Core idea:** Dark mode is a separate design problem, not a CSS filter. Inverting your light palette will produce something that technically renders but is painful to use. Every surface, color, image, and interactive state needs to be reconsidered for dark backgrounds.
 
-**Key differences from light mode:**
+### Surface Elevation Levels
 
-- **Elevation = lighter surfaces, not shadows.** In light mode, shadows show depth. In dark mode, shadows disappear into the dark background. Instead, use progressively lighter surface colors to show layers: base (`#121212`) < card (`#1E1E1E`) < modal (`#2C2C2C`).
-- **Reduce color saturation.** Vivid, fully saturated colors on dark backgrounds cause visual vibration and eye strain. Desaturate your accent and semantic colors by 10-20% for dark mode. A blue that looks great on white will scream on dark gray.
+In light mode, shadows show depth. In dark mode, shadows disappear into the void. Instead, use progressively lighter surface colors to simulate elevation. Each level gets lighter — not brighter — to indicate proximity to the user.
+
+| Level | Purpose | Value | Token |
+|-------|---------|-------|-------|
+| 0 | Base / page canvas | `#121212` | `--color-surface-base` |
+| 1 | Cards, list items | `#1E1E1E` | `--color-surface-raised` |
+| 2 | Raised cards, nav bars, sidebars | `#252525` | `--color-surface-overlay` |
+| 3 | Popovers, dropdowns, tooltips | `#2C2C2C` | `--color-surface-popover` |
+| 4 | Modals, dialogs, command palettes | `#333333` | `--color-surface-modal` |
+
+- **The jump between levels is intentional and small** (~6-8 lightness units in HSL). Big jumps look patchy. Tiny jumps make surfaces indistinguishable.
+- **Never skip levels.** A modal (Level 4) should sit on a scrim over Level 0, not float directly on Level 2. The stacking order must read correctly.
 - **Use lighter font weights cautiously.** Thin text (300 weight and below) on dark backgrounds smears on many displays, especially non-retina. Bump body text to regular (400) minimum in dark mode.
-- **Increase text-to-background contrast slightly.** Light mode body text might be `#333333` on `#FFFFFF` (12.6:1). Dark mode equivalent should aim for at least the same ratio — `#E0E0E0` on `#121212` or similar.
 
-**Implementation:**
+### Saturation Reduction
+
+Vivid, fully saturated colors on dark backgrounds cause visual vibration and eye strain. The darker the background, the more a saturated color screams.
+
+- **Desaturate accent colors by 10-20%** for dark mode. A blue that looks great on white will feel aggressive on `#121212`.
+- **Shift toward lighter tints.** If your light theme uses 500-600 weight colors from a scale (e.g., `blue-600`), dark mode should use 300-400 weight equivalents (e.g., `blue-400`). Lighter tints on dark backgrounds achieve the same perceived prominence as darker shades on light backgrounds.
+- **Semantic colors need the same treatment.** Error red, success green, warning amber — all need desaturated dark-mode variants. Don't just reuse the light-mode values.
+
+```css
+:root {
+  --color-action-primary: #2563EB;   /* blue-600: punchy on white */
+  --color-error: #DC2626;             /* red-600 */
+  --color-success: #16A34A;           /* green-600 */
+}
+
+[data-theme="dark"] {
+  --color-action-primary: #60A5FA;   /* blue-400: comfortable on dark */
+  --color-error: #FCA5A5;             /* red-300 */
+  --color-success: #86EFAC;           /* green-300 */
+}
+```
+
+### Image and Content Handling
+
+Dark mode breaks images and media in ways you won't catch without testing.
+
+- **Full-bleed images:** Reduce brightness slightly to prevent them from blowing out the dark UI around them. `filter: brightness(0.85)` on hero images and banners. Don't overdo it — `0.7` makes photos look muddy.
+- **Hero images with text overlays:** Add a subtle dark gradient overlay (`linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4))`) rather than relying on the image itself to provide enough contrast.
+- **Logos:** Provide a light variant of every logo, or place dark logos on a subtle light pill/padding. A dark logo on a dark background is invisible. If you only have one logo variant, add `filter: brightness(0) invert(1)` as a last resort — but a proper light variant is always better.
+- **User-generated content — leave it alone.** Avatars, uploaded photos, embedded media: don't apply brightness or saturation filters. Users uploaded those images expecting them to look a certain way. Filtering them is presumptuous and often looks wrong.
+
+### Dark Mode Contrast Audit Checklist
+
+Standard contrast auditing isn't enough for dark mode. Dark backgrounds introduce failure modes that don't exist in light themes.
+
+- [ ] **Test text on every surface level.** `#E0E0E0` on Level 0 (`#121212`) passes easily. Does it still pass on Level 3 (`#2C2C2C`)? On Level 4 (`#333333`)? Check every combination — secondary text on raised surfaces is where contrast silently fails.
+- [ ] **Audit borders explicitly.** Shadows are invisible in dark mode, which makes borders load-bearing for visual separation. Ensure border contrast is **at least 1.5:1** against the surface it sits on. `#3A3A3A` border on `#1E1E1E` surface = 1.3:1 — too subtle. Push it to `#4A4A4A` or higher.
+- [ ] **Check disabled states.** Disabled text and controls that look appropriately muted on white backgrounds can become completely invisible on dark surfaces. `#666666` on `#121212` is only 3.5:1 — borderline. Test every disabled element visually, not just mathematically.
+- [ ] **Verify focus rings.** Dark focus rings (the default in most browsers) vanish on dark backgrounds. Use light-colored focus rings: `blue-400` (`#60A5FA`), white with reduced opacity (`rgba(255,255,255,0.7)`), or your desaturated accent color. Focus visibility is a hard accessibility requirement, not a nice-to-have.
+- [ ] **Test colored backgrounds.** Status badges, alerts, and tags with colored backgrounds often use dark text. That dark text may fail contrast on a desaturated dark-mode background color. Recalculate every combination.
+
+### Implementation
 
 ```css
 :root {
@@ -124,9 +174,9 @@ Practical reference for building and reviewing color systems in UI. Use this whe
 }
 ```
 
-- **Test dark mode separately.** Contrast issues, invisible borders, unreadable labels, and clashing saturated colors all hide in dark mode. Run a full contrast audit on the dark palette independently.
+- **Increase text-to-background contrast slightly.** Light mode body text might be `#333333` on `#FFFFFF` (12.6:1). Dark mode equivalent should aim for at least the same ratio — `#E0E0E0` on `#121212` or similar.
 
-**Review question:** Have you tested dark mode as its own design — not just toggled a switch and assumed it works?
+**Review question:** Have you tested dark mode as its own design — with every surface level, every text weight, every interactive state, and every image audited independently from your light theme?
 
 ---
 
