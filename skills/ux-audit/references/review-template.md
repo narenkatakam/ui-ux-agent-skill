@@ -94,52 +94,48 @@ After all findings, provide a brief summary.
 
 ## Verification Checklist
 
-Run after fixes are applied. Check every item.
+Run after fixes are applied. **Essential** items must pass before shipping. **Polish** items improve quality and should be addressed in the current cycle.
 
-### Task completion
-- [ ] Primary task can be completed without confusion
-- [ ] All P0 issues resolved
-- [ ] Error paths handled (error messages are specific and actionable)
-- [ ] Empty states are designed (not blank screens)
-- [ ] Loading states prevent layout shifts
+### Essential (must-pass before shipping)
 
-### Visual hierarchy
-- [ ] Primary CTA is the most visually prominent element
-- [ ] Squint test passes: most important element stands out first
-- [ ] Visual weight budget respected (one focal point, not many)
-- [ ] Spacing follows a consistent scale (no off-grid values)
+1. [ ] Primary task can be completed without confusion
+2. [ ] All P0 issues resolved
+3. [ ] Error messages are specific and actionable (what happened + how to fix)
+4. [ ] Empty states are designed (not blank screens)
+5. [ ] Loading states prevent layout shifts
+6. [ ] Primary CTA is the most visually prominent element
+7. [ ] Color contrast meets WCAG AA (4.5:1 text, 3:1 UI components)
+8. [ ] Color is not the sole indicator of state or meaning
+9. [ ] All interactive elements are keyboard-accessible with visible focus
+10. [ ] Touch targets meet 44x44px minimum
+11. [ ] Focus order matches visual reading order
+12. [ ] Same concept = same name, icon, component, and behavior across screens
+13. [ ] Every action produces visible feedback within 100ms
+14. [ ] Destructive actions confirm what will be lost
+15. [ ] Labels are clear and action-oriented (verbs on buttons, nouns on nav)
 
-### Consistency
-- [ ] Same concept = same name, icon, component, and behavior across screens
-- [ ] Interaction patterns match established conventions in the product
-- [ ] Component variants are from the design system (no one-offs)
+### Polish (fix in current cycle)
 
-### Feedback
-- [ ] Every action produces visible feedback within 100ms
-- [ ] Success, error, and loading states are distinct and unambiguous
-- [ ] Destructive actions confirm what will be lost
-
-### Accessibility
-- [ ] Color contrast meets WCAG AA (4.5:1 text, 3:1 UI components)
-- [ ] Color is not the sole indicator of state or meaning
-- [ ] All interactive elements are keyboard-accessible with visible focus
-- [ ] Screen reader announces all interactive elements with correct labels and roles
-- [ ] Touch targets meet 44x44px minimum
-- [ ] Focus order matches visual reading order
-- [ ] Images have appropriate alt text (descriptive or empty for decorative)
-- [ ] `prefers-reduced-motion` is respected
-
-### Copy
-- [ ] Labels are clear and action-oriented (verbs on buttons, nouns on nav)
-- [ ] Error messages explain what happened and how to fix it
-- [ ] No jargon or internal terminology in user-facing text
-- [ ] Help text justifies its presence (L1-L3 layering respected)
-
-### Responsive
-- [ ] Layout works at 320px, 768px, and 1280px+
-- [ ] Content hierarchy preserved across breakpoints
-- [ ] No horizontal scroll at any viewport width
-- [ ] Touch targets adequate on mobile
+16. [ ] Squint test passes: most important element stands out first
+17. [ ] Visual weight budget respected (one focal point, not many)
+18. [ ] Spacing follows a consistent scale (no off-grid values)
+19. [ ] Component variants are from the design system (no one-offs)
+20. [ ] Interaction patterns match established conventions in the product
+21. [ ] Success, error, and loading states are visually distinct from each other
+22. [ ] Screen reader announces all interactive elements with correct labels and roles
+23. [ ] Images have appropriate alt text (descriptive or empty for decorative)
+24. [ ] `prefers-reduced-motion` is respected
+25. [ ] Error messages explain how to fix the problem, not just what went wrong
+26. [ ] No jargon or internal terminology in user-facing text
+27. [ ] Help text justifies its presence (L1-L3 layering respected)
+28. [ ] Layout works at 320px, 768px, and 1280px+
+29. [ ] Content hierarchy preserved across breakpoints
+30. [ ] No horizontal scroll at any viewport width
+31. [ ] Touch targets have adequate spacing on mobile (no mis-tap risk)
+32. [ ] Consistent terminology across all screens (same thing = same word everywhere)
+33. [ ] Button labels are verbs, navigation labels are nouns
+34. [ ] Sentence case everywhere (not Title Case On Every Button)
+35. [ ] Confirmation dialogs name the specific consequence, not just "Are you sure?"
 
 ---
 
@@ -234,7 +230,9 @@ Every data-driven component must handle all of these states. Missing any one is 
 
 ---
 
-## Example Finding
+## Example Findings
+
+### P0 — Form: No feedback after submission
 
 ```
 ### P0 — No feedback after form submission
@@ -252,4 +250,100 @@ Every data-driven component must handle all of these states. Missing any one is 
 4. Button returns to default state after feedback is shown.
 
 **Principle:** Feedback loop closure (system-principles.md #6).
+```
+
+### P0 — Dashboard: Color-only status indicators
+
+```
+### P0 — Status relies on color alone
+
+**Diagnosis:** Accessibility failure
+
+**Evidence:** The uptime dashboard uses green/yellow/red dots to indicate service health. No icons, no labels, no patterns. A color-blind user (8% of males) cannot distinguish "healthy" from "degraded" from "down."
+
+**Impact:** Color-blind users cannot determine system health — the primary purpose of the dashboard. Fails WCAG 1.4.1 (Use of Color).
+
+**Fix:**
+1. Add an icon to each status: checkmark (healthy), warning triangle (degraded), X circle (down).
+2. Add a text label next to each dot: "Healthy," "Degraded," "Down."
+3. Keep the color as a secondary signal, not the only one.
+
+**Principle:** Accessibility (Principle I) — color must never be the sole indicator.
+```
+
+### P1 — Settings: Dangerous action not separated
+
+```
+### P1 — "Delete account" sits next to routine settings
+
+**Diagnosis:** Slip / Error Prevention failure
+
+**Evidence:** On the Account Settings page, "Delete account" is a red text link inline with "Change password" and "Update email" — same section, same visual weight, no separation. Users scanning quickly could click it by accident.
+
+**Impact:** Users who mis-click face an irreversible action. Even with a confirmation dialog, proximity to routine actions increases the chance of accidental initiation.
+
+**Fix:**
+1. Move "Delete account" to a separate "Danger zone" section at the bottom of the page.
+2. Add a section heading: "Danger zone" with a muted red left border.
+3. Increase visual separation — minimum 48px gap from the nearest routine setting.
+4. Keep the confirmation dialog, but the first defense is spatial separation.
+
+**Principle:** Error Prevention (Principle F) — separate destructive from routine actions.
+```
+
+### P1 — Dashboard: No empty state for new users
+
+```
+### P1 — New user sees empty charts with no guidance
+
+**Diagnosis:** Gulf of Execution
+
+**Evidence:** A new account with no data shows four chart widgets with flat zero-lines and no labels. There is no explanation of what data should appear here or how to populate it. The user's only option is to figure it out themselves.
+
+**Impact:** New users. First-time experience is confusing and discouraging. Users may abandon before connecting their data source.
+
+**Fix:**
+1. Replace zero-data charts with a meaningful empty state: illustration + "Connect your data source to see analytics here" + CTA button.
+2. Show one sample chart with fake data labeled "Sample data — connect to see yours."
+3. Add an onboarding checklist widget if multiple setup steps are needed.
+
+**Principle:** Feedback and System Status (Principle C), Task-First UX (Principle A).
+```
+
+### P2 — Form: Inconsistent button labels
+
+```
+### P2 — Submit buttons use generic labels
+
+**Diagnosis:** Consistency break
+
+**Evidence:** Across the app: the project creation form uses "Submit," the settings page uses "Save," and the profile page uses "Update." All three do the same thing (persist changes) but use different words. The project form's "Submit" is particularly vague — submit what?
+
+**Impact:** Minor friction. Users must re-read each button to confirm the action. Not a blocker, but it erodes trust in the interface's coherence.
+
+**Fix:**
+1. Standardize on action-specific labels: "Create project," "Save settings," "Save profile."
+2. Reserve "Submit" for forms that are literally submissions (applications, requests).
+3. Document the button label convention in the design system.
+
+**Principle:** Consistency (Principle D), Affordance (Principle E).
+```
+
+### P2 — Settings: Toggle save behavior is ambiguous
+
+```
+### P2 — Unclear whether toggles auto-save
+
+**Diagnosis:** Gulf of Evaluation / Feedback gap
+
+**Evidence:** The Notifications settings page has 6 toggles. Flipping a toggle produces no confirmation — no toast, no inline message, no save button. The user cannot tell if the change took effect immediately or if they need to save.
+
+**Impact:** Low severity but affects trust. Users may flip toggles multiple times or look for a save button that doesn't exist.
+
+**Fix:**
+1. Add a subtle inline confirmation: "Saved" text that appears briefly next to the toggled item (fade in, hold 2s, fade out).
+2. Alternatively, add a persistent "Save" button that enables when any toggle changes.
+3. Pick one pattern (auto-save or explicit save) and use it consistently across all settings.
+
+**Principle:** Feedback loop closure (system-principles.md #6), Consistency (Principle D).
 ```

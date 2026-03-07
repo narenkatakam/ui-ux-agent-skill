@@ -23,15 +23,44 @@ Keep outputs concise. Bullets over paragraphs. Specific over generic.
 
 ---
 
+## Quick Reference
+
+**I need help with → read this:**
+
+| Building or reviewing... | Reference | Checklist |
+|---|---|---|
+| Buttons, CTAs, action hierarchy | Principle A (Task-First UX), Principle E (Affordance) | `checklists/buttons.md` |
+| Cards, tiles, grid layouts | Principle H (CRAP), Spacing Rules | `checklists/cards.md` |
+| Tables, data grids, lists | `references/data-visualization.md` | `checklists/tables.md` |
+| Forms, inputs, validation | `references/forms.md` | `checklists/forms.md` |
+| Modals, drawers, popovers, bottom sheets | `references/overlays.md` | `checklists/modals.md` |
+| Navigation, menus, wayfinding | `references/navigation.md` | `checklists/navigation.md` |
+| Dashboards, analytics, KPIs | `references/data-visualization.md` | `checklists/dashboards.md` |
+| Empty, loading, error, success states | `references/ui-states.md` | — |
+| Accessibility, WCAG, keyboard, screen readers | `references/accessibility.md` | — |
+| Typography, type scale, line length | `references/typography.md` | — |
+| Color, tokens, dark mode, contrast | `references/color-systems.md` | — |
+| Responsive, breakpoints, mobile-first | `references/responsive-design.md` | — |
+| Icons, sizing, alignment | `references/icons.md` | — |
+| Psychology, mental models, cognitive bias | `references/psychology.md` | — |
+| System-level principles, concept constancy | `references/system-principles.md` | — |
+| Running a design review | `references/review-template.md` | — |
+
+**Workflow:** building something → start with the checklist, then apply core principles, then consult references for depth.
+**Workflow:** reviewing something → use `references/review-template.md` with the relevant surface-specific gates.
+
+---
+
 ## Workflow
 
 ### 1) Guide workflow
 
 1. Identify the surface: marketing page / dashboard / settings / creation flow / list-detail / form / mobile screen.
-2. Identify the primary user task and primary CTA.
-3. Apply system-level guiding principles first — these are the mental model and interaction logic layer (`references/system-principles.md`).
-4. Apply core principles below — start from UX, then refine with CRAP visual hierarchy.
-5. Apply domain-specific guidance as needed:
+2. **If a component checklist exists for the surface, start there** — `checklists/` directory.
+3. Identify the primary user task and primary CTA.
+4. Apply system-level guiding principles first — these are the mental model and interaction logic layer (`references/system-principles.md`).
+5. Apply core principles below — start from UX, then refine with CRAP visual hierarchy.
+6. Apply domain-specific guidance as needed:
    - Icons: `references/icons.md`
    - Accessibility: `references/accessibility.md`
    - Responsive: `references/responsive-design.md`
@@ -593,3 +622,15 @@ Before finalizing generated UI, verify these items. Violating any one is a manda
 - UI states (empty, loading, error, success — patterns, decision trees, copy guidance): `references/ui-states.md`
 - Overlays (modals, drawers, popovers, bottom sheets — sizing, focus traps, z-index, decision tree): `references/overlays.md`
 - Review output template, verification gates, and surface-specific checklists: `references/review-template.md`
+
+## Component Checklists
+
+"Building a [X]? Check these before shipping."
+
+- Buttons: `checklists/buttons.md`
+- Cards: `checklists/cards.md`
+- Tables: `checklists/tables.md`
+- Forms: `checklists/forms.md`
+- Modals & Overlays: `checklists/modals.md`
+- Navigation: `checklists/navigation.md`
+- Dashboards: `checklists/dashboards.md`
