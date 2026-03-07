@@ -257,6 +257,22 @@ Deep-dive guidance on: system principles, psychology, accessibility, responsive 
 
 ---
 
+## What's New (v2)
+
+The original release had solid principles but left developers to interpret paragraphs. v2 closes the gap between "good advice" and "code I can ship."
+
+- **Every principle now has do/don't code examples** — Tailwind + React snippets you can copy-paste, not paragraphs to interpret. (Phase 1)
+- **3 new reference docs: forms, UI states, overlays** — the most common "what do I do here?" moments now have deep-dive guidance with decision trees. (Phase 2)
+- **7 component checklists** — building a table? A modal? A dashboard? Start with a 12-14 item checklist that references the right principles and docs. No more guessing which rules apply to your surface. (Phase 3)
+- **Quick-reference index** — "I need help with [X] → read [Y]" lookup table at the top of SKILL.md. Find the right doc in seconds. (Phase 3)
+- **Review template tightened** — verification split into Essential (15 must-pass) and Polish (20 items). 6 example findings across forms, dashboards, and settings — so AI assistants know exactly what good audit output looks like. (Phase 3)
+- **Core principles sharpened** — "modern minimal" vibes replaced with concrete rules: max shadow blur values, max colors per component, whitespace ratios, border-radius scales. (Phase 1)
+- **Dark mode deepened** — elevation strategy, saturation reduction, separate contrast audit. (Phase 1)
+
+The net effect: AI assistants using this skill now produce more specific, more consistent, and more shippable UI — especially for the surfaces developers build most (forms, tables, dashboards, settings).
+
+---
+
 ## Origin
 
 Forked from [oil-oil/oiloil-ui-ux-guide](https://github.com/oil-oil/oiloil-ui-ux-guide) — a well-structured Chinese-language UI/UX skill with strong bones: solid core principles, a smart help-text layering system (L0-L3), Norman-inspired psychology, and clean multi-tool architecture.
